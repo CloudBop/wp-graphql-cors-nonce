@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WPGraphQL CORS
+ * Plugin Name: WPGraphQL CORS Nonce update
  * Description: Allows user to customize WPGraphQL request CORS Headers
  * and response cookie header.
  * Text Domain: wp-graphql-cors

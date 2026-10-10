@@ -55,6 +55,17 @@ function wpgraphql_cors_set_auth_cookie( $user_id, $remember = false, $secure = 
 
 	do_action( 'set_logged_in_cookie', $logged_in_cookie, $expire, $expiration, $user_id, 'logged_in', $token );
 
+	// Establish the newly-created authentication state for this request.
+	wp_set_current_user( $user_id );
+
+	// Make the newly-created session cookie available to wp_get_session_token()
+	// during this request.
+	$_COOKIE[ LOGGED_IN_COOKIE ] = $logged_in_cookie;
+
+	
+	// error_log( 'AFTER SET USER: ' . get_current_user_id() );
+	// error_log( 'AFTER SET TOKEN: ' . wp_get_session_token() );
+
 	if ( ! apply_filters( 'send_auth_cookies', true ) ) {
 			return;
 	}

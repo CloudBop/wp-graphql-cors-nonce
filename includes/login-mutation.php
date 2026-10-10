@@ -38,12 +38,21 @@ function wpgraphql_cors_login_mutation() {
 						),
 					),
 				),
-				'outputFields'        => array(
+				'outputFields' => array(
 					'status' => array(
 						'type'        => 'String',
 						'description' => 'Login operation status',
 						'resolve'     => function( $payload ) {
 							return $payload['status'];
+						},
+					),
+
+					'nonce' => array(
+						'type'        => 'String',
+						'description' => 'Nonce for the newly-created authentication session.',
+						'resolve'     => function( $payload ) {
+
+							return $payload['nonce'];
 						},
 					),
 				),
@@ -68,7 +77,27 @@ function wpgraphql_cors_login_mutation() {
 						throw new UserError( ! empty( $user->get_error_code() ) ? $user->get_error_code() : 'invalid login' );
 					}
 
-					return array( 'status' => 'SUCCESS' );
+					$nonce = wp_create_nonce( 'wp_rest' );
+					// $nonce = wp_create_nonce( 'wp_rest' );
+
+					// error_log( 'NEW NONCE: ' . $nonce );
+					// error_log(
+					// 	'NEW VERIFY: ' .
+					// 	var_export( wp_verify_nonce( $nonce, 'wp_rest' ), true )
+					// );
+
+					// error_log( 'LOGIN USER: ' . get_current_user_id() );
+					// error_log( 'LOGIN TOKEN: ' . wp_get_session_token() );
+					// error_log( 'LOGIN NONCE: ' . $nonce );
+					// error_log(
+					// 	'SELF VERIFY: ' .
+					// 	var_export( wp_verify_nonce( $nonce, 'wp_rest' ), true )
+					// );
+
+					return array(
+						'status' => 'SUCCESS',
+						'nonce'  => $nonce,
+					);
 				},
 			)
 		);

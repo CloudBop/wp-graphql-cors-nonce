@@ -32,10 +32,20 @@ function wpgraphql_cors_logout_mutation() {
 					),
 				),
 				'mutateAndGetPayload' => function() {
-					// Logout and destroy session.
-					wp_logout();
+					// // Logout and destroy session.
+					// wp_logout();
 
-					return array( 'status' => 'SUCCESS' );
+					
+
+					//    error_log( 'BEFORE LOGOUT USER: ' . get_current_user_id() );
+					// 	error_log( 'BEFORE LOGOUT TOKEN: ' . substr( wp_get_session_token(), 0, 8 ) );
+
+						wp_logout();
+
+						// error_log( 'AFTER LOGOUT USER: ' . get_current_user_id() );
+						// error_log( 'AFTER LOGOUT TOKEN: ' . substr( wp_get_session_token(), 0, 8 ) );
+
+						return array( 'status' => 'SUCCESS' );
 				},
 			)
 		);
